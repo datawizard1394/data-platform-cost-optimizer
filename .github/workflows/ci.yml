@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cost-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install
+        run: python -m pip install -e ".[dev]"
+      - name: Lint
+        run: python -m ruff check src tests
+      - name: Test
+        run: python -m unittest discover -s tests -v
+      - name: Cost analysis smoke test
+        run: >-
+          platform-cost demo
+          --workspace /tmp/cost-demo
+          --seed 20260728
+          --days 60
+          --workloads 12
+      - name: Upload analysis evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: cost-evidence-${{ matrix.python-version }}
+          path: |
+            /tmp/cost-demo/reports/summary.json
+            /tmp/cost-demo/reports/team_showback.csv
+            /tmp/cost-demo/reports/cost_anomalies.csv
+            /tmp/cost-demo/reports/recommendations.csv
+          retention-days: 7
+
+  container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build --tag data-platform-cost:ci .
+      - run: docker run --rm data-platform-cost:ci --help
+
