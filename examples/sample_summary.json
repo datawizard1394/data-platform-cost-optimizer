@@ -1,0 +1,22 @@
+{
+  "allocation_difference": "0.00",
+  "anomaly_count": 2,
+  "currency": "CAD",
+  "direct_cost": "20554.29",
+  "disclosure": "Synthetic portfolio evidence; savings are modeled, not realized.",
+  "modeled_monthly_savings": "800.39",
+  "period": {
+    "days": 60,
+    "end": "2025-03-01",
+    "start": "2025-01-01"
+  },
+  "recommendation_count": 8,
+  "shared_cost_allocated": "1140.90",
+  "showback_reconciled_cost": "21695.19",
+  "synthetic": true,
+  "team_count": 4,
+  "total_billed_cost": "21695.19",
+  "untagged_line_item_cost": "5815.63",
+  "untagged_line_item_count": 540
+}
+

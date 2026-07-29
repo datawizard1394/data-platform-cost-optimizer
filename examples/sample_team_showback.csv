@@ -1,0 +1,6 @@
+team,direct_cost,allocated_shared_cost,total_cost,percent_of_total
+analytics,5302.73,294.34,5597.07,25.80
+data_platform,5668.55,314.64,5983.19,27.58
+finance_data,4576.00,254.00,4830.00,22.26
+ml_engineering,5007.01,277.92,5284.93,24.36
+
