@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
-from decimal import Decimal, ROUND_DOWN, ROUND_HALF_UP
+from decimal import ROUND_DOWN, ROUND_HALF_UP, Decimal
 from pathlib import Path
 from statistics import median
 
@@ -67,7 +67,7 @@ def _allocate_cents(
         key: value.quantize(MONEY, rounding=ROUND_DOWN) for key, value in exact.items()
     }
     remaining_cents = int(
-        ((amount.quantize(MONEY) - sum(allocated.values())) / MONEY)
+        (amount.quantize(MONEY) - sum(allocated.values())) / MONEY
     )
     order = sorted(
         exact,
